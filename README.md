@@ -3,7 +3,12 @@ anything docker
 
 # Commands:
 
+
 docker-machine -D ssh default - got me ssh into the default docker machine.
+ctrl+C: stop containers and other actions
+Run container: winpty docker container run -it --rm -p 5000:5000 -e FLASK_APP=app.py -d web1
+Stats: docker container stats
+
 
 ### Install on Windows 10 home, with no Hyper-V
 docker-machine create default --virtualbox-no-vtx-check
