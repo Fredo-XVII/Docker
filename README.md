@@ -3,7 +3,7 @@ anything docker
 
 # Commands:
   
-  # Build Images:
+  ## Build Images:
   - Got me ssh into the default docker machine: docker-machine -D ssh default 
   
   ## Containers:
