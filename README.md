@@ -5,6 +5,7 @@ anything docker
   
   ## Build Images:
   - Got me ssh into the default docker machine: docker-machine -D ssh default 
+  - docker image build -t web1 .
   
   ## Containers:
   
