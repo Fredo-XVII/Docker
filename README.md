@@ -4,10 +4,13 @@ anything docker
 # Commands:
 
 
-docker-machine -D ssh default - got me ssh into the default docker machine.
+Got me ssh into the default docker machine: docker-machine -D ssh default 
 ctrl+C: stop containers and other actions
 Run container: winpty docker container run -it --rm -p 5000:5000 -e FLASK_APP=app.py -d web1
+Run container w/ restart on fail w/ port load balancing:
+  - winpty docker container run -it -p 5000 -e FLASK_APP=app.py -d --restart on-failure web1
 Stats: docker container stats
+Stop container: docker container stop web1
 
 
 ### Install on Windows 10 home, with no Hyper-V
