@@ -27,6 +27,9 @@ anything docker
         - rm *.pyc
    - setting users for volume files: winpty docker container exec -it --user "$(id -u):$(id -g)" web1 touch hi.txt
 
+  ## Using R interpreter:
+  - Interactive R: winpty docker container run -it --rm --name testingR r-base:latest R
+
 
 ### Install on Windows 10 home, with no Hyper-V
 docker-machine create default --virtualbox-no-vtx-check
