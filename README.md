@@ -18,7 +18,7 @@ anything docker
   
   ## Volumes:
   -  UNIX volumes: winpty docker container run -it -p 5000:5000 -e FLASK_APP=app.py --rm --name web1 -e FLASK_DEBUG=1 -v $PWD:/app web1
-  -  PC volumes: winpty docker container run -it -p 5000:5000 -e FLASK_APP=app.py --rm --name web1 -e FLASK_DEBUG=1 -v "C:\Users\Z001C9V\OneDrive - Target Corporation\Documents\GitHub\Docker\Dive_Into_Docker\src\06-docker-in-the-real-world\03-creating-a-dockerfile-part-1":/app web1 .
+  -  PC volumes: winpty docker container run -it -p 5000:5000 -e FLASK_APP=app.py --rm --name web1 -e FLASK_DEBUG=1 -v "C:\Users\Z001C9V\OneDrive - Target Corporation\Documents\GitHub\Docker\Dive_Into_Docker\src\06-docker-in-the-real-world\03-creating-a-dockerfile-part-1":/app web1
 
 ### Install on Windows 10 home, with no Hyper-V
 docker-machine create default --virtualbox-no-vtx-check
