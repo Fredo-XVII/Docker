@@ -1,6 +1,16 @@
 # Docker
 anything docker
 
+# Set up and install:
+
+  ### Install on Windows 10 home, with no Hyper-V
+  docker-machine create default --virtualbox-no-vtx-check
+
+  ### For Windows Enterprise - need to set Switch
+  https://docs.docker.com/docker-for-windows/troubleshoot/#networking-and-wifi-problems-upon-docker-for-windows-install
+  https://docs.docker.com/machine/drivers/hyper-v/#2-set-up-a-new-external-network-switch-optional
+
+
 # Commands:
   
   ## Build Images:
@@ -30,14 +40,12 @@ anything docker
   ## Using R interpreter:
   - Interactive R: winpty docker container run -it --rm --name testingR r-base:latest R
 
+  ## Connecting Containers over Network:
+  -
+  -
+  
+-----
 
-### Install on Windows 10 home, with no Hyper-V
-docker-machine create default --virtualbox-no-vtx-check
-
-### For Windows Enterprise - need to set Switch
-https://docs.docker.com/docker-for-windows/troubleshoot/#networking-and-wifi-problems-upon-docker-for-windows-install
-https://docs.docker.com/machine/drivers/hyper-v/#2-set-up-a-new-external-network-switch-optional
-
-Kilmatic Notes:
+# Kilmatic Notes:
 
 If you click on the "exec" icon on the top of the container in Kilmatice it will open a powershell window that will allow you to "cd" into the spark directory and run pyspark.
