@@ -9,10 +9,12 @@ COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
 # Then copy the entire directory where you code lives
-COPY . . # will copy everything in the current docker directory on local into the WORKDIR in IMAGE
+# will copy everything in the current docker directory on local into the WORKDIR in IMAGE
+COPY . .
 
 # You want as close to the bottom, but not the last line
-LABEL maintainer="Alfredo Marquez <alfredo@gmail.com>"\  # KEY:VALUE, optional, used for filtering docker images
+# KEY:VALUE, optional, used for filtering docker images
+LABEL maintainer="Alfredo Marquez <alfredo@gmail.com>"\
       version="1.0"
 
 # Gets executed when the image gets built, not when the dockerfile builds the image.
