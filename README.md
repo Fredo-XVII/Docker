@@ -1,5 +1,5 @@
 # Docker
-anything docker
+  - Docker set up on Centos: https://docs.docker.com/install/linux/docker-ce/centos/
 
 # Set up and install:
 
