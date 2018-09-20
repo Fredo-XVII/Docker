@@ -54,4 +54,5 @@ If you click on the "exec" icon on the top of the container in Kilmatice it will
 
 # Resources
   -file:///C:/Users/Z001C9V/Downloads/CERN_openlab_Nitin_Agarwal.pdf
+  - https://www.cloudandheat.com/blog/docker-containers-on-openstack-vms-2/
   
