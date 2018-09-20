@@ -51,3 +51,7 @@ anything docker
 # Kilmatic Notes:
 
 If you click on the "exec" icon on the top of the container in Kilmatice it will open a powershell window that will allow you to "cd" into the spark directory and run pyspark.
+
+# Resources
+  -file:///C:/Users/Z001C9V/Downloads/CERN_openlab_Nitin_Agarwal.pdf
+  
