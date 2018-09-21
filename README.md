@@ -63,7 +63,15 @@
   - docker container stop $(docker container ls -a - q) : stops all running containers.
  
 # Docker COMPOSE
+  - HELP: docker -compose --help
+  - docker-compose build - build the image
+  - docker-compose pull - pull dependencies of the imgage
+  - docker-compose up - run the compose image.
+  - SHORT CUT: docker-compose up --build -d
+  - docker-compose ps
+  - LOGS: docker-compose logs -f # for when you are in -d mode and you want to see the logs. CTRL + C to exit.
   - 
+  
 -----
 
 # Kilmatic Notes:
