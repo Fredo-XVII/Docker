@@ -50,6 +50,15 @@
   - CMD passes code to an ENTRYPOINT script
   - default shell instruction: /bin/sh -c "code"
   
+  ## Cleaning Up:
+  - docker container ls : go to command to see what containers are running
+  - docker container ls -a : show containers that have been stopped as well.
+  - docker system df : how much disk space docker is using.
+    - docker system df -v : more details listed
+  - docker images ls : dangling images...images with the <none> tag are dangling safe to delete
+  - docker system info : gives docker install info
+  - docker system prune : will delete all excess stuff from docker.
+  
 -----
 
 # Kilmatic Notes:
