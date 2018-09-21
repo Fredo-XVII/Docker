@@ -46,6 +46,10 @@
   -
   -
   
+  ## CMD instruction: 
+  - CMD passes code to an ENTRYPOINT script
+  - default shell instruction: /bin/sh -c "code"
+  
 -----
 
 # Kilmatic Notes:
