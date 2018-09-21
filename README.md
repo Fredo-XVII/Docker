@@ -1,5 +1,5 @@
 # Docker
-anything docker
+  - Docker set up on Centos: https://docs.docker.com/install/linux/docker-ce/centos/
 
 # Set up and install:
 
@@ -46,8 +46,31 @@ anything docker
   -
   -
   
+  ## CMD instruction: 
+  - CMD passes code to an ENTRYPOINT script
+  - default shell instruction: /bin/sh -c "code"
+  
+  ## Cleaning Up:
+  - docker container ls : go to command to see what containers are running
+  - docker container ls -a : show containers that have been stopped as well.
+  - docker system df : how much disk space docker is using.
+    - docker system df -v : more details listed
+  - docker images ls : dangling images...images with the <none> tag are dangling safe to delete
+  - docker system info : gives docker install info
+  - docker system prune : will delete all excess stuff from docker.
+    - docker system prune -f : skips confirmation (yes/no) so great for cron job...no human input.
+    - - docker system prune -a : deletes images with no running containers...can be dangerous...think before running
+  - docker container stop $(docker container ls -a - q) : stops all running containers.
+ 
+# Docker COMPOSE
+  - 
 -----
 
 # Kilmatic Notes:
 
 If you click on the "exec" icon on the top of the container in Kilmatice it will open a powershell window that will allow you to "cd" into the spark directory and run pyspark.
+
+# Resources
+  -file:///C:/Users/Z001C9V/Downloads/CERN_openlab_Nitin_Agarwal.pdf
+  - https://www.cloudandheat.com/blog/docker-containers-on-openstack-vms-2/
+  
