@@ -1,1 +1,27 @@
 version: '3'
+
+services:
+  redis:
+    image: 'redis:3.2-apline'
+    ports:
+      - '6379:6379'
+    volume:
+      - 'redis:/data'
+
+  web:
+    build: '.'
+    depends_on:
+      - 'redis' # will launch redis first before web container
+    # environment: # explicit stated
+      # FLASK_DEBUG: true # explicit stated
+    # or you could do the below in a file instead.
+    env_file:
+      - '.env'
+    # images: 'nickjj/web:1.0' # This uploads the image on run to repo
+    ports:
+      - '5000:5000'
+    volume:
+      - '.:/app'
+
+volumes:
+  redis: {} # needs to match the name on line 9, options would go in empty hash {}
