@@ -2,14 +2,15 @@ version: '3'
 
 services:
   redis:
-    image: 'redis:3.2-apline'
+    image: 'redis:3.2-alpine'
     ports:
       - '6379:6379'
-    volume:
+    volumes:
       - 'redis:/data'
 
   web:
     build: '.'
+    # command:  python ... # can be used to override the CMD in the dockerfile
     depends_on:
       - 'redis' # will launch redis first before web container
     # environment: # explicit stated
@@ -17,10 +18,10 @@ services:
     # or you could do the below in a file instead.
     env_file:
       - '.env'
-    # images: 'nickjj/web:1.0' # This uploads the image on run to repo
+    image: 'nickjj/web:1.0' # This uploads the image on run to repo
     ports:
       - '5000:5000'
-    volume:
+    volumes:
       - '.:/app'
 
 volumes:
