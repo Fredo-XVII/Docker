@@ -58,7 +58,12 @@
   - docker images ls : dangling images...images with the <none> tag are dangling safe to delete
   - docker system info : gives docker install info
   - docker system prune : will delete all excess stuff from docker.
-  
+    - docker system prune -f : skips confirmation (yes/no) so great for cron job...no human input.
+    - - docker system prune -a : deletes images with no running containers...can be dangerous...think before running
+  - docker container stop $(docker container ls -a - q) : stops all running containers.
+ 
+# Docker COMPOSE
+  - 
 -----
 
 # Kilmatic Notes:
