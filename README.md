@@ -63,7 +63,18 @@
   - docker container stop $(docker container ls -a - q) : stops all running containers.
  
 # Docker COMPOSE
-  - 
+  - HELP: docker -compose --help
+  - docker-compose build - build the image
+  - docker-compose pull - pull dependencies of the imgage
+  - docker-compose up - run the compose image.
+  - SHORT CUT: docker-compose up --build -d
+  - docker-compose ps
+  - LOGS: docker-compose logs -f # for when you are in -d mode and you want to see the logs. CTRL + C to exit.
+  - RESTART: docker-compose restart < container name if you want just one container >
+  - BASH commands to container: docker-compose exec web(name of container) ls -la
+    - INTERACTIVE prompt: docker-compose exec web sh
+  - docker-compose run redis(container_name) redis-server --version
+  
 -----
 
 # Kilmatic Notes:
