@@ -35,18 +35,22 @@
   - winpty docker container run -it -p 3838:3838 --name sisterstore -v "C:/Users/Z001C9V/Target/OneDrive_Data/OneDrive - Target Corporation/Documents/GitHub/ShinyApps/SISTER_STORE_SELECTOR/app_logs/":/var/log/shiny-server/ --restart on-failure sisterstore
     
   ## Debugging:
-  - connect to running container: winpty docker container exec -it web1 bash
+  -  Interactive in Docker Container: 
+    - connect to running container: 
+      - winpty docker container exec -it <name of container> sh 
+      - winpty docker container exec -it web1 bash
     - exec: puts you in the root directoy of the docker container (now you use linux commands to navigate)
       - linux commands:
         - rm *.pyc
    - setting users for volume files: winpty docker container exec -it --user "$(id -u):$(id -g)" web1 touch hi.txt
 
-  ## Using R interpreter:
+  ### Using interpreter:
   - Interactive R: winpty docker container run -it --rm --name testingR r-base:latest R
+  - 
 
   ## Connecting Containers over Network:
-  -
-  -
+  - VOLUME ["path inside container"]command - expose file in the Docker file and container
+  - --volume-from <name of container w/exposed volume path>
   
   ## CMD instruction: 
   - CMD passes code to an ENTRYPOINT script
