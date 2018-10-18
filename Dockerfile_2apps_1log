@@ -1,0 +1,65 @@
+# Docker file for Shiny App filtering
+FROM rocker/shiny
+
+# Remove the sample-apps from Shiny Server
+RUN sudo rm -rf /srv/shiny-server/sample-apps
+
+# install R package dependencies
+RUN apt-get update && apt-get install -y \
+    apt-utils \
+    libssl-dev \
+    libcurl4-openssl-dev \
+    libssh2-1-dev \
+    libxml2-dev \
+    ## clean up
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/ \
+    && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
+
+## Install packages from CRAN
+RUN install2.r --error \
+    -r 'http://cran.rstudio.com' \
+    tidyverse \
+    cluster \
+    magrittr \
+    plotly \
+    devtools
+
+## Install packages from Github
+RUN Rscript -e "devtools::install_github('Fredo-XVII/TestContR')"
+    ## clean up
+    # && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
+
+#### Create Directory for App Code and Access Log Files
+## Create Main App directory
+RUN sudo mkdir -p /srv/shiny-server/apps/sisterstores/
+## Create UserReport App directory
+RUN sudo mkdir -p /srv/shiny-server/apps/userreport/
+# WORKDIR /app
+
+#### Copy Shiny App and Config file to Server
+## Copy Config file to Container
+COPY ./shiny-customized.config /etc/shiny-server/shiny-server.conf
+## Copy Main App code to Container
+COPY ./appdir/ /srv/shiny-server/apps/sisterstores/
+## rename to user_appdir # Copy UserReport code to Container
+COPY ./user_appdir/ /srv/shiny-server/apps/userreport/
+
+#### Set in rocker/shiny image pulls
+# CMD ["/usr/bin/shiny-server.sh"]
+
+#### Maintainer
+# LABEL maintainer="Alfredo.G.Marquez@target.com" \
+# Build image: docker image build -t sisterstore .
+# Run Container: WINDOWS
+# winpty docker container run -it -p 3838:3838 --name sisterstore \
+#    -v ./appdir/:/srv/shiny-server/apps/sisterstores/ \
+#    -v ./user_appdir/":/srv/shiny-server/apps/userreport/ \
+#    -v ./app_logs/":/var/log/shiny-server/ \
+#    --restart on-failure sisterstore
+
+## TO DO LIST
+## rename to /srv/Docker/SisterStores/appdir/ on Open Stack
+## rename to user_appdir # rename to /srv/Docker/SisterStores/user_appdir/ on Open Stack
+## rename ./Shiny_Access_Log_App to ./user_appdir
+# Run Container: OpenStack Ubuntu
