@@ -1,0 +1,47 @@
+# Docker file for Shiny App filtering
+FROM rocker/shiny
+
+# create directory with alpine and set working directory
+# RUN mkdir /srv/shiny-server/Stores_Repack_Forecast
+# WORKDIR /app
+
+
+# install R package dependencies
+RUN apt-get update && apt-get install -y \
+    apt-utils \
+    libssl-dev \
+    libcurl4-openssl-dev \
+    libssh2-1-dev \
+    libxml2-dev \
+    ## Postgres dependency for RPostgres
+    libpq-dev \
+    ## clean up
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/ \
+    && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
+
+## Install packages from CRAN
+RUN install2.r --error \
+    -r 'http://cran.rstudio.com' \
+    dplyr \
+    magrittr \
+    readr \
+    devtools \
+    RPostgres \
+    lubridate \
+    DT
+
+## Clean up
+RUN rm -rf /tmp/downloaded_packages/ /tmp/*.rds
+
+# Copy shiny app to server - /Stores_Repack_Forecast
+COPY ./appdir /srv/shiny-server/
+
+# EXPOSE on 3839
+# PORT 3839
+
+# CMD ["/usr/bin/shiny-server.sh"]
+
+## Docerk Run command line code on Git Bash
+# docker image build -t stores_repack_forecast .
+# winpty docker container run -it -p 3839:3838 --name stores_repack_forecast -d --restart on-failure stores_repack_forecast
