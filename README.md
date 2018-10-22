@@ -93,6 +93,11 @@
 If you click on the "exec" icon on the top of the container in Kilmatice it will open a powershell window that will allow you to "cd" into the spark directory and run pyspark.
 
 # Resources
-  -file:///C:/Users/Z001C9V/Downloads/CERN_openlab_Nitin_Agarwal.pdf
+  - file:///C:/Users/Z001C9V/Downloads/CERN_openlab_Nitin_Agarwal.pdf
   - https://www.cloudandheat.com/blog/docker-containers-on-openstack-vms-2/
+  - http://goinbigdata.com/docker-run-vs-cmd-vs-entrypoint/
+  - **AMAZING RESOURCE** - https://www.symbolix.com.au/blog-main/r-docker-hello
+  - **rocker/shiny** - https://github.com/rocker-org/rocker-versioned/blob/master/rstudio/README.md
+  - **BASH CMD** - https://www.codeguru.com/csharp/csharp/cs_internet/using-r-with-docker-engine.html#Item4
+  
   
