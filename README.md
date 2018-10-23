@@ -99,5 +99,6 @@ If you click on the "exec" icon on the top of the container in Kilmatice it will
   - **AMAZING RESOURCE** - https://www.symbolix.com.au/blog-main/r-docker-hello
   - **rocker/shiny** - https://github.com/rocker-org/rocker-versioned/blob/master/rstudio/README.md
   - **BASH CMD** - https://www.codeguru.com/csharp/csharp/cs_internet/using-r-with-docker-engine.html#Item4
+  - **containerit package:** https://o2r.info/2017/05/30/containerit-package/
   
   
