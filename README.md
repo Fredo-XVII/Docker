@@ -104,4 +104,4 @@ If you click on the "exec" icon on the top of the container in Kilmatice it will
   - **Remove sudo requirement** - https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user
   - **Remove TTY requirement** - https://www.shell-tips.com/2014/09/08/sudo-sorry-you-must-have-a-tty-to-run-sudo/
     - make sure to remove the -t when using docker image build: https://stackoverflow.com/questions/43099116/error-the-input-device-is-not-a-tty
-  
+  - **Docker Build Reference**: https://docs.docker.com/engine/reference/commandline/build/#options
