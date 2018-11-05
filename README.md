@@ -107,4 +107,5 @@ If you click on the "exec" icon on the top of the container in Kilmatice it will
   - **Docker Build Reference**: https://docs.docker.com/engine/reference/commandline/build/#options
   - **Best Practices**: https://docs.docker.com/develop/develop-images/dockerfile_best-practices/
   - **Environmental Variables**: https://docs.docker.com/engine/reference/builder/#environment-replacement
+  - **Running R scripts**: https://www.codeguru.com/csharp/csharp/cs_internet/using-r-with-docker-engine.html#Item4
   
