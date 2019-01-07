@@ -110,4 +110,5 @@ If you click on the "exec" icon on the top of the container in Kilmatice it will
   - **Running R scripts**: https://www.codeguru.com/csharp/csharp/cs_internet/using-r-with-docker-engine.html#Item4
   - **https://www.rocker-project.org/**: https://www.rocker-project.org/
   - **EntryPoint**: http://goinbigdata.com/docker-run-vs-cmd-vs-entrypoint/
+  - **RStudio+Shiny Docker**: https://bioconductor.org/packages/release/bioc/vignettes/sevenbridges/inst/doc/rstudio.html
   
