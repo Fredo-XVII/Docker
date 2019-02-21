@@ -31,20 +31,31 @@
   ## Volumes:
   -  UNIX volumes: winpty docker container run -it -p 5000:5000 -e FLASK_APP=app.py --rm --name web1 -e FLASK_DEBUG=1 -v $PWD:/app web1
   -  PC volumes: winpty docker container run -it -p 5000:5000 -e FLASK_APP=app.py --rm --name web1 -e FLASK_DEBUG=1 -v "C:\Users\Z001C9V\OneDrive - Target Corporation\Documents\GitHub\Docker\Dive_Into_Docker\src\06-docker-in-the-real-world\03-creating-a-dockerfile-part-1":/app web1
-  
+  - Volume code below is working:
+  - winpty docker container run -it -p 3838:3838 --name sisterstore -v "C:/Users/Z001C9V/Target/OneDrive_Data/OneDrive - Target Corporation/Documents/GitHub/ShinyApps/SISTER_STORE_SELECTOR/app_logs/":/var/log/shiny-server/ --restart on-failure sisterstore
+  - NAMED VOLUMES - great for databases or when you need to share data
+    - command: docker volume create <name> -> ENTER
+    - command: docker volume ls
+    - command: docker volume inspect <name of named volume>
+    
   ## Debugging:
-  - connect to running container: winpty docker container exec -it web1 bash
+  -  Interactive in Docker Container: 
+    - connect to running container: 
+      - winpty docker container exec -it <name of container> sh 
+      - winpty docker container exec -it web1 bash
     - exec: puts you in the root directoy of the docker container (now you use linux commands to navigate)
       - linux commands:
         - rm *.pyc
    - setting users for volume files: winpty docker container exec -it --user "$(id -u):$(id -g)" web1 touch hi.txt
 
-  ## Using R interpreter:
+  ### Using interpreter:
   - Interactive R: winpty docker container run -it --rm --name testingR r-base:latest R
+  - 
 
   ## Connecting Containers over Network:
-  -
-  -
+  - VOLUME ["path inside container"]command - expose file in the Docker file and container
+    - or, add "-v /app/dir" to expose the path when you first run the container.
+  - --volume-from <name of container w/exposed volume path>
   
   ## CMD instruction: 
   - CMD passes code to an ENTRYPOINT script
@@ -82,6 +93,23 @@
 If you click on the "exec" icon on the top of the container in Kilmatice it will open a powershell window that will allow you to "cd" into the spark directory and run pyspark.
 
 # Resources
-  -file:///C:/Users/Z001C9V/Downloads/CERN_openlab_Nitin_Agarwal.pdf
+  - file:///C:/Users/Z001C9V/Downloads/CERN_openlab_Nitin_Agarwal.pdf
   - https://www.cloudandheat.com/blog/docker-containers-on-openstack-vms-2/
+  - http://goinbigdata.com/docker-run-vs-cmd-vs-entrypoint/
+  - **AMAZING RESOURCE** - https://www.symbolix.com.au/blog-main/r-docker-hello
+  - **rocker/shiny** - https://github.com/rocker-org/rocker-versioned/blob/master/rstudio/README.md
+  - **BASH CMD** - https://www.codeguru.com/csharp/csharp/cs_internet/using-r-with-docker-engine.html#Item4
+  - **containerit package:** https://o2r.info/2017/05/30/containerit-package/
+  - **install.r/installGithub.r** - https://cran.r-project.org/web/packages/littler/vignettes/littler-examples.html
+  - **Remove sudo requirement** - https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user
+  - **Remove TTY requirement** - https://www.shell-tips.com/2014/09/08/sudo-sorry-you-must-have-a-tty-to-run-sudo/
+    - make sure to remove the -t when using docker image build: https://stackoverflow.com/questions/43099116/error-the-input-device-is-not-a-tty
+  - **Docker Build Reference**: https://docs.docker.com/engine/reference/commandline/build/#options
+  - **Best Practices**: https://docs.docker.com/develop/develop-images/dockerfile_best-practices/
+  - **Environmental Variables**: https://docs.docker.com/engine/reference/builder/#environment-replacement
+  - **Running R scripts**: https://www.codeguru.com/csharp/csharp/cs_internet/using-r-with-docker-engine.html#Item4
+  - **https://www.rocker-project.org/**: https://www.rocker-project.org/
+  - **EntryPoint**: http://goinbigdata.com/docker-run-vs-cmd-vs-entrypoint/
+  - **RStudio+Shiny Docker**: https://bioconductor.org/packages/release/bioc/vignettes/sevenbridges/inst/doc/rstudio.html
+  - **RStudio Authenticate**: https://github.com/rocker-org/rocker/wiki/Using-the-RStudio-image
   
