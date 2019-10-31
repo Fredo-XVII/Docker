@@ -49,7 +49,7 @@ COPY ./user_appdir/ /srv/shiny-server/apps/userreport/
 # CMD ["/usr/bin/shiny-server.sh"]
 
 #### Maintainer
-# LABEL maintainer="Alfredo.G.Marquez@target.com" \
+# LABEL maintainer="" \
 # Build image: docker image build -t sisterstore .
 # Run Container: WINDOWS
 # winpty docker container run -it -p 3838:3838 --name sisterstore \
