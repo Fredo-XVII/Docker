@@ -33,7 +33,11 @@
   - #* @get /cran 
   - #* @serialezer htmlwidget - for graphs!!!!!
   
-## Package API
+## Package API with Docker
+
+## Run on AWS - not sure if needed.
+
+
 
 
 
