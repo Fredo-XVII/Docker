@@ -1,0 +1,42 @@
+# Notes for the Plumber and Docker Learning Lab
+
+## Intro
+ - MLFLOW
+ - METAFLOW
+ - 
+ 
+## What is an API
+  - Accept request through the internet, take inputs, digest with code, and return json
+  - Get Request:
+   - DNS: server
+   - Port: 8000
+   - End point: /cran/
+    - sub end point: /cran/timeplot?
+   - Parameters: ?package=ggplot2&by=week
+   
+## Developing an API
+ - technology:
+   - https://www.rplumber.io/index.html
+   - https://www.docker.com/
+   - https://aws.amazon.com/console/ - linux droplet like
+   - googlesheets - spreadsheet service
+
+## Create an API app: cran_logs_app folder
+ - holds the plumber.R file
+ - add plumber library to original code
+ - create function of the analysis: parameters become the inputs or parameters of API
+ - Endpoints:
+  - decorations, looks like comments
+  - #* apitTitle
+  - #* plumber comments to set parameters
+  - #* @param
+  - #* @get /cran 
+  - #* @serialezer htmlwidget - for graphs!!!!!
+  
+## Package API
+
+
+
+
+
+
