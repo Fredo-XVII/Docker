@@ -64,6 +64,23 @@
     - `apt update -qq`
     - `apt install r-cran-xlconnect`
     - r-cran-rjava is for sure in Debian. And Debian testing has around 1000 r-cran-* packages. You can always search via apt-cache search r-cran-foo (with foo the term you are after) or at https://packages.debian.org/foo if foo is the source package name. There is also a searchable interface at that website. And there is the r-sig-debian mailing list.
+  - R 4.x.x Install not RStudio:
+    - FROM rocker/r-ver:4.1.2
+    - RUN /rocker_scripts/install_tidyverse.sh
+    - Apache Arrow Dependency fix: https://github.com/eitsupi/r-ver/blob/42d7e5f1896cb1cc70aa0ac27d89f3e1757bb38c/dockerfiles/Dockerfile#L14-L17
+  > # editorsupports, install packages for IDE
+  > FROM docker.io/rocker/r-ver:4.1.2@sha256:4f0d91faf933de445211aea823aadcec15cd4c0d7bfaa8654731546827284d67 AS editorsupports
+  > LABEL org.opencontainers.image.licenses="GPL-2.0-or-later"
+  > COPY scripts /tmp/scripts
+  > RUN /tmp/scripts/install_editorsupports.sh
+  > # tidyverse, install the tidyverse packages
+  > FROM editorsupports AS tidyverse
+  > ENV ARROW_R_DEV=TRUE
+  > RUN apt-get update \
+  >    && apt-get install -y --no-install-recommends cmake \
+  >    && rm -rf /var/lib/apt/lists/*
+  > RUN /rocker_scripts/install_tidyverse.sh
+  
   
   ## Cleaning Up:
   - docker container ls : go to command to see what containers are running
