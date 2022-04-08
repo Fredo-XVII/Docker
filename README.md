@@ -60,6 +60,10 @@
   ## CMD instruction: 
   - CMD passes code to an ENTRYPOINT script
   - default shell instruction: /bin/sh -c "code"
+  - bash install script from eddelbuettel : https://github.com/rocker-org/rocker-versioned2/issues/315
+    - `apt update -qq`
+    - `apt install r-cran-xlconnect`
+    - r-cran-rjava is for sure in Debian. And Debian testing has around 1000 r-cran-* packages. You can always search via apt-cache search r-cran-foo (with foo the term you are after) or at https://packages.debian.org/foo if foo is the source package name. There is also a searchable interface at that website. And there is the r-sig-debian mailing list.
   
   ## Cleaning Up:
   - docker container ls : go to command to see what containers are running
