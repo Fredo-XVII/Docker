@@ -30,9 +30,9 @@
   
   ## Volumes:
   -  UNIX volumes: winpty docker container run -it -p 5000:5000 -e FLASK_APP=app.py --rm --name web1 -e FLASK_DEBUG=1 -v $PWD:/app web1
-  -  PC volumes: winpty docker container run -it -p 5000:5000 -e FLASK_APP=app.py --rm --name web1 -e FLASK_DEBUG=1 -v "C:\Users\Z001C9V\OneDrive - Target Corporation\Documents\GitHub\Docker\Dive_Into_Docker\src\06-docker-in-the-real-world\03-creating-a-dockerfile-part-1":/app web1
+  -  PC volumes: winpty docker container run -it -p 5000:5000 -e FLASK_APP=app.py --rm --name web1 -e FLASK_DEBUG=1 -v "C:\folder":/app web1
   - Volume code below is working:
-  - winpty docker container run -it -p 3838:3838 --name sisterstore -v "C:/Users/Z001C9V/Target/OneDrive_Data/OneDrive - Target Corporation/Documents/GitHub/ShinyApps/SISTER_STORE_SELECTOR/app_logs/":/var/log/shiny-server/ --restart on-failure sisterstore
+
   - NAMED VOLUMES - great for databases or when you need to share data
     - command: docker volume create <name> -> ENTER
     - command: docker volume ls
