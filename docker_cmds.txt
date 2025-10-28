@@ -1,0 +1,359 @@
+GAM commands for styling and running tests
+
+    find styling issues: make run-pre-commit
+    running tests: build-arm64-docker-image
+    Build and push image: make publish-amd64-usr-docker-image
+    Build and push image: make publish-arm64-usr-docker-image
+
+Docker CMDs
+Colima
+
+    colima stop
+    colima start --cpu 10 --memory 12 --disk 250
+    No Proxy:
+        colima start --cpu 12 --memory 16 --disk 250 --no-proxy '127.0.0.1,localhost,10.,co.com,corp.co.com,hq.co.com,dist.co.com,Email.co.com,stores.co.com,labs.co.com,binrepo.co.com,.co.com'
+
+Log in and Pull images
+
+    docker login docker.co.com -u Z001C9V
+    docker pull http://docker.co.com/dfe-api/fx_model:2.1.0_arm64
+
+Build Scripts
+-- fx_model on artifactory --
+
+    docker build --rm -t fx_model -f Dockerfile . docker build --platform arm64 --rm -t fx_model:1.5.1arm64 -f . docker.co.com/managed/forecast/fx_model:3.0.2 # prod
+
+-- fx_model --
+
+    docker build --rm -t container_dev .
+    docker build --rm -t container_dev -f Dockerfile_RStudio .
+    docker build --rm -t container_dev -f Dockerfile .
+    docker build --rm -t container_dev -f Dockerfile . <<<--- This one --->>>
+    docker build --rm --no-cache -t container_dev -f Dockerfile . <<<--- This one NO CACHE--->>>
+    docker build --rm -t container_dev -f Dockerfile .
+    docker build --rm -t container_dev --platform linux/amd64,linux/arm64 .
+    docker build --rm -t container_dev --platform linux/amd64 -f Dockerfile .
+    docker build --rm -t container_dev --platform linux/arm64/v8 -f Dockerfile .
+    docker build --rm -t container_dev --platform linux/amd64 -f Dockerfile .
+    docker build --rm -t container_dev:latest --platform linux/amd64 .
+    docker build --platform linux/arm64 -t container_dev:latest . <-- THIS WORKED -->
+    sh docker-compile.sh jammy server
+
+** con-base-docker-images
+
+    docker build --rm -t con_base_docker -f Dockerfile .
+
+-- Stage Builds --
+
+docker build --co stage1-linux -t fx_model:stage1 . docker build --co stage2-build-R -t fx_model:stage2 . -- For AMD64 architecture (default): docker build --co stage2-build-r
+--build-arg ARCH=x86_64
+--build-arg BASE_IMG=docker.co.com/bigred/spark:3.5.1_2.13
+--build-arg R_ARCH_FOLDER=pc-linux-gnu
+-t fx_model:amd64 . -- For ARM64 architecture: # --co stage2-build-r
+docker build --rm
+--build-arg ARCH=aarch64
+--build-arg BASE_IMG=docker.co.com/dfe-api/argus-base:3.5.1_2.13_arm64
+--build-arg R_ARCH_FOLDER=unknown-linux-gnu
+-t fx_model:arm64_stage2 . -- With custom build arguments: docker build --co stage2-build-r
+--build-arg R_VERSION=3.6.3
+--build-arg CRAN_MIRROR=https://binrepo.co.com/artifactory/cran-mirror/
+-t fx_model:custom .
+Run Scripts
+
+˜
+
+    docker run -d -p 8989:8989 -e PASSWORD=${PASSWORD} rocker/tidyverse
+    docker run -d -p 8787:8787 Dockerfile_sh
+    docker container run -it 681fbb5799fb bash
+    docker container run -it Dockerfile_sh bash
+    docker container run -it a7c381df240f bash
+    docker container run -it fx_model_305 bash
+    docker container run -it container_dev bash
+    docker container run -it --name bash_con con_rstudio
+    docker exec -it [container-id] bash # Enter running container
+    docker run -di -p 8787:8787 -p 8888:8888 -v $HOME:/h Dockerfile_sh # --restart=always
+    docker run -di --restart=always -p 8787:8787 -p 8888:8888 -v '/Users/Z001C9V/OneDrive - co Corporation/':/h docker.co.com/rsh/r-aarch64:3.4
+
+PASSWORD=yourpassword # Working!!!
+
+    docker run --rm -ti -p 8787:8787 -v $HOME/Library/CloudStorage/OneDrive-coCorporation/:/h Dockerfile_sh
+    docker run -e JAVA_OPTS="-Xmx12g" --rm -ti -p 8787:8787 --name model_rstudio -v $HOME/Library/CloudStorage/OneDrive-coCorporation/:/h model_rstudio:latest <<<--- This one --->>>
+    docker run -e JAVA_OPTS="-Xmx12g" --detach --rm -ti -p 8787:8787 --name Dockerfile -v $HOME/Library/CloudStorage/OneDrive-coCorporation/:/h Dockerfile:latest <<<--- This one --->>>
+    docker run -e JAVA_OPTS="-Xmx12g" --detach --rm -ti -p 8789:8789 --name Dockerfile_89 -v $HOME/Library/CloudStorage/OneDrive-coCorporation/:/h Dockerfile:latest <<<--- This one --->>>
+
+specify the port: -e JUPYTER_PORT=8080 \ ; -p 8080:8080 \
+
+    docker run -e JAVA_OPTS="-Xmx12g" -e RSTUDIO_PORT="8787" --detach --rm -ti -p 8787:8787 --name Dockerfile -v $HOME/Library/CloudStorage/OneDrive-coCorporation/:/h Dockerfile:latest
+
+second port on private web browser:
+
+    docker run --rm -ti -p 8789:8787 --name model_rstudio2 -v $HOME/Library/CloudStorage/OneDrive-coCorporation/:/h model_rstudio:latest
+    Make version: make REPO_PATH=$HOME/Library/CloudStorage/OneDrive-coCorporation/ start-model
+    docker run --rm -ti -p 8787:8787 --name model_rstudio -v $HOME/Library/CloudStorage/OneDrive-coCorporation/:/h docker.co.com/dfe-api/model_rstudio:1.0.0
+    docker run --rm -ti -p 8789:8787 --name model_rstudio -v $HOME/Library/CloudStorage/OneDrive-coCorporation/:/h model_rstudio <<<--- Second container different port --->>>
+    docker run --rm -ti -p 8789:8787 --name modelR -v $HOME/Library/CloudStorage/OneDrive-coCorporation/:/h gam_rstudio_4_1_2 <<<--- Second container different port --->>>
+
+Remove Scripts
+
+    docker image prune -f
+    docker image rmi -f $(docker images -f dangling=true -q)
+    docker ps -a ### list all containers running and not running. ###
+    docker rm $(docker ps -aq) # remove all containers, won't remove running containers.
+    docker builder prune --all --force
+    docker buildx prune --all --force
+    docker image prune -f
+    docker system prune -a --volumes --force
+
+Buildx
+detect config dir and show the broken symlink
+
+export DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker} ls -l "$DOCKER_CONFIG/cli-plugins/docker-buildx" || true ls -l "$DOCKER_CONFIG/cli-plugins/docker-compose" || true
+remove the dangling symlink (safe)
+
+rm -v "$DOCKER_CONFIG/cli-plugins/docker-buildx" 2>/dev/null || true rm -v "$DOCKER_CONFIG/cli-plugins/docker-compose" 2>/dev/null || true
+recreate dir and download correct binary for your Mac CPU
+
+mkdir -p "$DOCKER_CONFIG/cli-plugins"
+
+ARCH=$(uname -m): grabs architecture name
+
+ARCH=$(arm64 -m) if [[ "$ARCH" == "arm64" || "$ARCH" == "aarch64" ]]; then BIN="buildx-v0.11.2.darwin-arm64" else BIN="buildx-v0.11.2.darwin-amd64" fi curl -L "https://github.com/docker/buildx/releases/download/v0.11.2/${BIN}" -o "$DOCKER_CONFIG/cli-plugins/docker-buildx" chmod +x "$DOCKER_CONFIG/cli-plugins/docker-buildx"
+verify
+
+docker buildx version
+Check if enabled
+
+docker buildx create --use --name mybuilder docker buildx inspect --bootstrap
+Build and push to repo
+
+docker buildx build --platform linux/amd64,linux/arm64 -t docker.co.com//gam_aarch64:latest --push . <- base example from copilot ->
+
+docker buildx build --platform linux/amd64,linux/arm64 -t gam_arch_
+
+build only one image
+
+docker build --platform linux/arm64 -t gam_aarch64:arm64 . docker build --platform linux/amd64 -t gam_amd64:amd64 .
+R
+
+    https://stat.ethz.ch/R-manual/R-devel/library/base/html/Startup.html
+    https://cran.r-project.org/doc/manuals/r-release/R-admin.html
+    https://stat.ethz.ch/R-manual/R-devel/library/base/html/libPaths.html
+    https://rstudio.github.io/packrat/walkthrough.html
+    3.6.3 last date: options(repos = c(CRAN = "https://packagemanager.posit.co/cran/2020-04-23"))
+
+.libPaths()
+
+    /root/R/aarch64-unknown-linux-gnu-library/3.6
+    /opt/R/3.6.3/lib/R/library
+
+install.packages('https://cran.r-project.org/src/contrib/Archive/renv/renv_0.13.0.tar.gz', = 'source') R CMD INSTALL renv_0.13.2.tar.gz R CMD INSTALL -l "/root/R/aarch64-unknown-linux-gnu-library/3.6" renv_0.13.2.tar.gz
+
+wget "https://cran.r-project.org/src/contrib/Archive/evaluate/evaluate_0.15.tar.gz" R CMD INSTALL -l "/root/R/aarch64-unknown-linux-gnu-library/3.6" evaluate_0.15.tar.gz R CMD INSTALL -l /path/to/library pkg1 pkg2 RUN R CMD INSTALL . -l /dfelibs easydfe
+
+rJava: https://solutions.posit.co/envs-pkgs/using-rjava/
+R 4.1.2
+
+/usr/lib/R/bin/R CMD javareconf /usr/lib/R/bin/R CMD . -l /dfelibs easydfe SYMLINK: ln -s /usr/bin/R $R_HOME/bin/R
+RStudio
+
+    https://github.com/rstudio/rstudio/archive/refs/tags/v2024.04.2+764.tar.gz
+
+    Configure RStudio: https://support.posit.co/hc/en-us/articles/200552316-Configuring-RStudio-Workbench-RStudio-Server
+
+    https://github.com/rstudio/rstudio/wiki/Installing-RStudio-Dependencies
+
+    https://solutions.posit.co/envs-pkgs/rsw_defaults/
+
+    From the container Logs
+        INFO No secure key found at /etc/rstudio/secure-cookie-key
+        INFO No environment variables found at /etc/rstudio/env-vars
+        apt-get install -y gcc-aarch64-linux-gnu
+
+    Rmarkdown issue: https://support.posit.co/hc/en-us/articles/360017886674-Troubleshooting-RStudio-Rendering-Errors
+
+Java
+
+    https://phoenixnap.com/kb/check-java-version-linux
+
+    javac -version
+    java -version
+    update-alternatives --list java
+    whereis java
+    ls -l /usr/bin/java
+    ls -l /etc/alternatives/java
+    apt list --installed
+    apt list --installed | grep -i openjdk
+
+    Solutions for javac in Java17: https://stackoverflow.com/questions/71357170/where-is-javac-in-java-17-openjdk-amd64
+        https://linuxcapable.com/how-to-install-openjdk-17-on-ubuntu-linux/#google_vignette
+
+    sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/lib/jvm/jdk-17/bin/javac" 1
+    need to had java to path: export PATH=$JAVA_HOME/bin:$PATH
+    Get Installed JAVA: apt list --installed | grep -i openjdk
+    JRE: https://hub.docker.com/_/eclipse-temurin/tags?page=&page_size=&ordering=-name&name=17-jre-jammy
+    Get available versions of Java: apt-cache search openjdk | grep openjdk-17
+    R Java fix: https://stackoverflow.com/questions/42562160/r-cmd-javareconf-not-finding-jni-hs
+    sdkman: https://jsonobject.hashnode.dev/installing-openjdk-with-sdkman-in-linux
+
+Mac
+
+    SYMLINK: ln -s /usr/libexec/java_home $HOME/.sdkman/candidates/java/17.0.10-amzn
+
+    sudo ln -sfn /path/to/my/installed/jdk/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
+    ln -sfn $HOME/.sdkman/candidates/java/17.0.10-amzn /Library/Java/JavaVirtualMachines/openjdk.jdk
+
+    see complete list of java: /usr/libexec/java_home -v22 -V
+
+GitHub
+
+    https://www.geeksforgeeks.org/how-to-setup-git-server-on-ubuntu/
+
+Resources
+
+    https://askubuntu.com/questions/855945/what-exactly-does-gcc-multilib-mean-on-ubuntu
+    https://askubuntu.com/questions/430705/how-to-use-apt-get-to-download-multi-arch-library
+    https://davetang.org/muse/2021/04/24/running-rstudio-server-with-docker/
+    https://cmake.org/download/
+    sed: https://gist.github.com/duyhenryer/c47d02ca547c25a3534d215f61d4efb4
+    https://stackoverflow.com/questions/38284600/can-i-build-rstudio-server-from-sources
+    https://git.co.com/MahdiYousefi/R-Spark-Hadoop-Docker/tree/66b24a609d3e943941864e22ae8cd7af33655b07/R-aarch64
+    https://packages.ubuntu.com/jammy/gcc-aarch64-linux-gnu
+    daily builds: https://dailies.rstudio.com/rstudio/cranberry-hibiscus/electron/jammy-arm64/
+    https://posit.co/download/rstudio-server/
+    rocker: https://github.com/rocker-org/rocker-versioned2/blob/master/scripts/install_rstudio.sh
+    Rstudio custom build (Jeremy Owen): https://github.com/jrowen/ARM-rstudio-server/blob/master/build_rstudio.sh
+    https://www.cherryservers.com/blog/install-deb-file-ubuntu
+    GWT Github Issue: https://github.com/rstudio/rstudio/issues/9463
+    GWT Github Issue: https://github.com/rstudio/rstudio/issues/3157
+    Colima + Buildx: https://aosolorzano.medium.com/installing-colima-as-a-docker-engine-provider-with-buildx-and-compose-plugins-installed-1ce8b3bae158
+    Docker + Buildx: https://docs.docker.com/engine/install/debian/#install-using-the-repository
+    https://docs.docker.com/build/architecture/#install-buildx
+
+CURL
+solution: nss-plugin-pem package for ubuntu
+
+    https://curl.se/docs/manpage.html
+    Find the CA that Curls is using root@365afaa1e784:/usr/bin# curl-config Usage: curl-config [OPTION]
+
+Available values for OPTION include:
+
+--built-shared says 'yes' if libcurl was built shared --ca ca bundle install path --cc compiler --cflags pre-processor and compiler flags --checkfor [version] check for (lib)curl of the specified version --configure the arguments given to configure when building curl --features newline separated list of enabled features --help display this help and exit --libs library linking information --prefix curl install prefix --protocols newline separated list of enabled protocols --ssl-backends output the SSL backends libcurl was built to support --static-libs static libcurl library linking information --version output version information --vernum output the version information as a number (hexadecimal) root@365afaa1e784:/usr/bin# curl-config --ca /etc/ssl/certs/ca-certificates.crt
+
+    Gemini: How to change libcurl version for curl? There are a few ways to change the SSL version in curl:
+        Using the -k option: This option disables SSL certificate verification. It also allows you to specify the SSL version using the --ssl-version option. For example: curl -k --ssl-version tlsv1.2 https://example.com This will use TLS version 1.2 to connect to https://example.com.
+        Using the --ssl-version option directly: You can also use the --ssl-version option without the -k option. This will still disable SSL certificate verification, but it will allow you to specify the SSL version without using the -k option. For example: curl --ssl-version tlsv1.2 https://example.com
+        Setting the environment variable CURL_SSL_VERSION: You can set the environment variable CURL_SSL_VERSION to the desired SSL version. For example: CURL_SSL_VERSION=tlsv1.2 curl https://example.com Available SSL versions: The following SSL versions are supported by curl:
+        tlsv1
+        tlsv1.1
+        tlsv1.2
+        tlsv1.3 Note:
+        Using older SSL versions may be less secure. It is recommended to use the latest available SSL version.
+        If you are using a proxy server, you may need to configure the proxy server to support the desired SSL version.
+        export NO_PROXY='127.0.0.1,localhost,10.,co.com,corp.co.com,hq.co.com,dist.co.com,Email.co.com,stores.co.com,labs.co.com,binrepo.co.com,.co.com'
+
+Sodium: https://doc.libsodium.org/installation
+
+wget https://download.libsodium.org/libsodium/releases/libsodium-1.0.20.tar.gz tar -xzf libsodium-1.0.20.tar.gz env CFLAGS="$CFLAGS -march=armv8-a+crypto+aes" ./configure make && make check sudo make install
+
+    In R: R -e 'install.packages("sodium", repos = "https://binrepo.co.com/artifactory/cran-mirror/")'
+
+Linux
+Aliases
+
+    alias # List all defined aliases
+    alias | grep keyword # Search for specific alias
+    type alias_name # Show what an alias does
+    which alias_name # Show if command is aliased
+    unalias alias_name # Remove an alias
+    alias ll='ls -la' # Create new alias
+
+HDFS:
+
+    hdfs dfs -ls - list the files in HDFS under your zid
+    oozie:
+        oozie job -oozie http://bigred3oozie.co.com:11000/oozie -rerun 3718346-250508145921288-oozie-oozi-W -Doozie.wf.rerun.failnodes=true
+        oozie job -oozie http://bigred3oozie.co.com:11000/oozie -rerun 3693629-250508150029547-oozie-oozi-W -Doozie.wf.rerun.failnodes=true
+    oozie kill:
+        oozie job -oozie http://bigred3oozie.co.com:11000/oozie -kill 3722371-250508150029547-oozie-oozi-W
+    oozie log:
+        oozie job -oozie http://bigred3oozie.co.com:11000/oozie -log 3720245-250508145921288-oozie-oozi-W
+    oozie info:
+        oozie job -oozie http://bigred3oozie.co.com:11000/oozie -verbose -info 3722371-250508150029547-oozie-oozi-W
+
+Here is the code to copy the file to hdfs:
+
+    hdfs dfs -put /home_dir/z001c9v/secrets/credentials.json secrets/ Check move:
+    hdfs dfs -cat secrets/credentials.json
+
+Keytabs:
+
+    Generate: 1. generate-keytab Z001C9V.keytab Z001C9V@BIGRED.co.COM 2. generate-keytab Z001C9V.keytab Z001C9V@CORP.co.COM # this one for DFE.
+    kinit: 1.kinit -kt /home_dir/z001c9v/Z001C9V.keytab Z001C9V@BIGRED.co.COM 2. kinit -kt /home_dir/z001c9v/Z001C9V.keytab Z001C9V@CORP.co.COM - This one for DFE
+    Show keytab: 1. klist -kte /home_dir/z001c9v/Z001C9V.keytab
+
+Add Argus password, When I change password, I update at three places.
+
+    generate keytab (kinit)
+    edge node > secrets/ > nano credentials.json - change lan password
+    edge node to hdfs: hdfs dfs -put /home_dir/z001c9v/secrets/credentials.json secrets/
+    argus curl command (on the edgenode): 1.delete previous credential curl -X DELETE "https://api-internal.co.com/argus_workloads/v1/secrets?key=<API_KEY>" -u ':' curl -X DELETE "https://api-internal.co.com/argus_workloads/v1/secrets?key=10165eac9cdc8288b9c2b00018788e8ca1e78f39" -u 'Z001C9V:'
+
+2.add new credential curl -X POST "https://api-internal.co.com/argus_workloads/v1/secrets?key=<API_KEY>" -u ':' -d'{"password": "<PWD_NEW>"}' -H "Content-Type: application/json"
+
+3.check current credential curl -X GET "https://api-internal.co.com/argus_workloads/v1/secrets?key=<API_KEY>" -H "accept: application/json" -u ':' | jq
+
+curl -X GET "https://api-internal.co.com/argus_workloads/v1/secrets?key=10165eac9cdc8288b9c2b00018788e8ca1e78f39" -H "accept: application/json" -u 'Z001C9V:' | jq
+
+curl -X DELETE "https://api-internal.co.com/argus_workloads/v1/secrets?key="e771050f41d4bb6203cbdfbcd1c9bf253cbd62a5" -u 'Z001C9V:lan pass'
+
+curl -X POST "https://api-internal.co.com/argus_workloads/v1/secrets?key=10165eac9cdc8288b9c2b00018788e8ca1e78f39" -u 'Z001C9V:' -d'{"password": ""}' -H "Content-Type: application/json"
+
+Run workflow jobs: alias deploy_usr_jobs="/Users/Z001C9V/Library/CloudStorage/OneDrive-coCorporation/DevOps/vela/deploy_workflow.sh -c bigred3 -e usr -w dfe-gamm-batch-run-bigred3 -d /Users/Z001C9V/Library/CloudStorage/OneDrive-coCorporation/GitHub/AlgorithmGAM"
+
+/Users/Z001C9V/Library/CloudStorage/OneDrive-coCorporation/DevOps/vela/deploy_workflow.sh -x -c bigred3 -e usr -w dfe-gamm-batch-run-bigred3 -d /Users/Z001C9V/Library/CloudStorage/OneDrive-coCorporation/GitHub/AlgorithmGAM
+
+alias run_usr_jobs="/Users/Z001C9V/Library/CloudStorage/OneDrive-coCorporation/DevOps/vela/restart_coordinator.sh -c bigred3 -e usr -w dfe-gamm-batch-run-bigred3 -d /Users/Z001C9V/Library/CloudStorage/OneDrive-coCorporation/GitHub/AlgorithmGAM"
+Vela
+
+unset HTTP_PROXY HTTPS_PROXY http_proxy https_proxy
+
+    if you have issues connecting
+
+        /bin/bash -c "$(curl -fsSL https://binrepo.co.com/artifactory/toolshed/docker-helper-scripts/latest/colima_full_clean_install_script.command)"
+
+        export NO_PROXY='127.0.0.1,localhost,10.,co.com,corp.co.com,hq.co.com,dist.co.com,Email.co.com,stores.co.com,labs.co.com,binrepo.co.com,.co.com'
+
+        export VELA_ADDR=https://vela.prod.co.com/
+
+        vela login --api.addr https://vela.prod.co.com/
+
+    Run code: make publish-amd64-usr-docker-image
+
+Colima
+
+    Copilot:
+
+    SSH into Colima VM
+    colima ssh
+    Edit Docker daemon configuration
+    sudo nano /etc/docker/daemon.json
+    add config:
+    { "proxies": { "default": { "noProxy": "127.0.0.1,localhost,10.*,co.com,corp.co.com,hq.co.com,dist.co.com,Email.co.com,stores.co.com,labs.co.com" } } }
+
+    In Colima SSH
+
+    resoureces:
+
+    https://wiki.co.com/tgtwiki/index.php/Docker_Onboarding_Guide
+
+    confluence: https://confluence.co.com/x/SoC_F
+
+    https://wiki.co.com/tgtwiki/index.php/Git/Setup_SSH_Key_Authentication
+    Steps
+
+    find keys:
+    create keys: ssh-keygen -t ed25519 -C "email@co.com"
+    Copy to Github: cat ~/.ssh/id_ed25519.pub
+    ssh -T git@git.co.com
+    add the config from copilot above
+
