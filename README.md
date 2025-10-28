@@ -134,3 +134,10 @@ If you click on the "exec" icon on the top of the container in Kilmatice it will
   - **RStudio+Shiny Docker**: https://bioconductor.org/packages/release/bioc/vignettes/sevenbridges/inst/doc/rstudio.html
   - **RStudio Authenticate**: https://github.com/rocker-org/rocker/wiki/Using-the-RStudio-image
   
+Add buildx plug-in to Docker
+
+    source: https://aosolorzano.medium.com/installing-colima-as-a-docker-engine-provider-with-buildx-and-compose-plugins-installed-1ce8b3bae158
+    Env in bash profile: export DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
+    code:
+        curl -SL https://github.com/docker/buildx/releases/download/v0.11.2/buildx-v0.11.2.darwin-arm64 -o $DOCKER_CONFIG/cli-plugins/docker-buildx
+        chmod +x $DOCKER_CONFIG/cli-plugins/docker-buildx
